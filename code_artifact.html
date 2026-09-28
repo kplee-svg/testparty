@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 카일의 생일 파티에 초대합니다! 🎉</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #2563eb;       /* 블루 테마 메인 */
+            --secondary-color: #3b82f6;     /* 라이트 블루 */
+            --accent-color: #60a5fa;        /* 포인트 포커스 블루 */
+            --bg-gradient: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #93c5fd 100%);
+            min-height: 100vh;
+            color: var(--text-main);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 50px 20px 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .header p.subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #93c5fd;
+        }
+
+        /* D-Day Counter */
+        .countdown-container {
+            background: white;
+            margin: -25px 30px 30px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.1);
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .count-item {
+            flex: 1;
+        }
+
+        .count-item .num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .count-item .label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 0 30px 40px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 35px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        /* Info Card */
+        .info-card {
+            background: #eff6ff;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #bfdbfe;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-row i {
+            width: 30px;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .info-row .label {
+            font-weight: 600;
+            width: 70px;
+            color: var(--text-sub);
+        }
+
+        .info-row .val {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Search Box */
+        .search-box {
+            background: #f8fafc;
+            border: 1.5px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 30px;
+        }
+
+        .search-box label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .search-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px dashed #93c5fd;
+            margin-left: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .timeline-time {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 3px;
+        }
+
+        .timeline-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .timeline-desc {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        /* RSVP Form */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-sub);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .radio-label {
+            flex: 1;
+            border: 1.5px solid #e2e8f0;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .radio-group input[type="radio"] {
+            display: none;
+        }
+
+        .radio-group input[type="radio"]:checked + .radio-label {
+            background: #eff6ff;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Modal Popup Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-card h2 {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .modal-card p {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .modal-close-btn {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+            transition: background 0.2s;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* Confetti Button */
+        .celebrate-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 99;
+            transition: transform 0.2s;
+        }
+
+        .celebrate-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="celebrate-btn" onclick="fireConfetti()" title="축하 폭죽 터뜨리기!">🎉</button>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <span class="header-tag">YOU'RE INVITED!</span>
+            <h1>카일의 34번째<br>생일파티에 초대합니다 🎂</h1>
+            <p class="subtitle">Happy Birthday Party</p>
+        </div>
+
+        <!-- D-Day Counter -->
+        <div class="countdown-container">
+            <div class="count-item">
+                <div class="num" id="days">00</div>
+                <div class="label">DAYS</div>
+            </div>
+            <div class="count-item">
+                <div class="num" id="hours">00</div>
+                <div class="label">HOURS</div>
+            </div>
+            <div class="count-item">
+                <div class="num" id="minutes">00</div>
+                <div class="label">MINS</div>
+            </div>
+            <div class="count-item">
+                <div class="num" id="seconds">00</div>
+                <div class="label">SECS</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Party Info -->
+            <div class="section-title">
+                <i class="fa-solid fa-calendar-check"></i> 파티 안내
+            </div>
+            <div class="info-card">
+                <div class="info-row">
+                    <i class="fa-solid fa-clock"></i>
+                    <span class="label">일시</span>
+                    <span class="val">2026년 10월 24일 (토) 오후 6:00</span>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span class="label">장소</span>
+                    <span class="val">강남 루프탑 파티룸 (성수역 3번출구)</span>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-shirt"></i>
+                    <span class="label">드레스코드</span>
+                    <span class="val">블루 톤 / 시티 캐주얼 👔</span>
+                </div>
+            </div>
+
+            <!-- Schedule Timeline -->
+            <div class="section-title">
+                <i class="fa-solid fa-list-check"></i> 상세 일정표
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">18:00 - 18:30</div>
+                    <div class="timeline-title">입장 및 포토타임 📸</div>
+                    <div class="timeline-desc">웰컴 드링크와 함께 포토존에서 인생샷 남기기</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">18:30 - 19:30</div>
+                    <div class="timeline-title">메인 바비큐 & 저녁 식사 🥂</div>
+                    <div class="timeline-desc">맛있는 음식 및 와인 칵테일 즐기기</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">19:30 - 20:00</div>
+                    <div class="timeline-title">생일 케이크 커팅 & 촛불 타임 🎂</div>
+                    <div class="timeline-desc">생일 축하 노래 부르기 및 촛불 끄기</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">20:00 - 21:30</div>
+                    <div class="timeline-title">파티 게임 & 레크레이션 🎁</div>
+                    <div class="timeline-desc">푸짐한 상품이 걸려있는 보드게임 및 퀴즈 타임</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">21:30 ~</div>
+                    <div class="timeline-title">자유 수다 & 2차 파티 🎵</div>
+                    <div class="timeline-desc">밤새도록 이어지는 감성 수다 타임</div>
+                </div>
+            </div>
+
+            <!-- RSVP Form -->
+            <div class="section-title">
+                <i class="fa-solid fa-envelope-open-text"></i> 참석 여부 확인 (RSVP)
+            </div>
+
+            <!-- 등록 확인 조회 섹션 -->
+            <div class="search-box">
+                <label for="searchPhone">🔍 이미 신청하셨나요? 등록 여부 조회</label>
+                <div class="search-input-group">
+                    <input type="text" id="searchPhone" class="form-control" placeholder="전화번호 뒤 4자리 (예: 1234)" maxlength="4">
+                    <button type="button" class="search-btn" id="searchBtn" onclick="checkRegistration()">조회</button>
+                </div>
+            </div>
+
+            <form id="rsvpForm">
+                <div class="form-group">
+                    <label for="name">성함</label>
+                    <input type="text" id="name" class="form-control" placeholder="성함을 입력해주세요" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">연락처</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="010-0000-0000" required>
+                </div>
+                <div class="form-group">
+                    <label>참석 여부</label>
+                    <div class="radio-group">
+                        <input type="radio" id="att_yes" name="attendance" value="참석" checked>
+                        <label for="att_yes" class="radio-label">참석할게요! 🥳</label>
+                        
+                        <input type="radio" id="att_no" name="attendance" value="불참">
+                        <label for="att_no" class="radio-label">아쉽지만 불참 😭</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="guests">동반 인원 (본인 제외)</label>
+                    <input type="number" id="guests" class="form-control" value="0" min="0" max="5">
+                </div>
+                <div class="form-group">
+                    <label for="message">축하 한마디 / 문의사항</label>
+                    <textarea id="message" class="form-control" rows="3" placeholder="축하 메시지를 남겨주세요!"></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">참석 응답 제출하기</button>
+            </form>
+        </div>
+
+        <div class="footer">
+            Designed for Special Birthday Party ✨<br>
+            궁금한 점은 언제든 강표에게 직접 연락해 주세요!
+        </div>
+    </div>
+
+    <!-- 제출 완료 / 조회 알림 팝업 모달 -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-card">
+            <div class="modal-icon" id="modalIcon">🎉</div>
+            <h2 id="modalTitle">알림</h2>
+            <p id="modalDesc">상세 내용입니다.</p>
+            <button class="modal-close-btn" onclick="closeModal()">확인</button>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBOdplBIQx6IKqGjA71U6n-jwUFoojeDcdaAu9iY-4NaJyLLElarlcXC66Ufd9fQYq/exec";
+        const partyDate = new Date("2026-10-24T18:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = partyDate - now;
+
+            if (distance < 0) {
+                document.getElementById("days").innerText = "00";
+                document.getElementById("hours").innerText = "00";
+                document.getElementById("minutes").innerText = "00";
+                document.getElementById("seconds").innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        function fireConfetti() {
+            confetti({
+                particleCount: 120,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#2563eb', '#3b82f6', '#60a5fa', '#38bdf8', '#ffffff']
+            });
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(fireConfetti, 500);
+        });
+
+        // 커스텀 모달 열기 함수
+        function showModal(icon, title, desc) {
+            document.getElementById("modalIcon").innerText = icon;
+            document.getElementById("modalTitle").innerText = title;
+            document.getElementById("modalDesc").innerHTML = desc;
+            document.getElementById("infoModal").classList.add("active");
+        }
+
+        function closeModal() {
+            document.getElementById("infoModal").classList.remove("active");
+        }
+
+        // 전화번호 뒷자리 4자리 조회 함수
+        function checkRegistration() {
+            const phoneInput = document.getElementById("searchPhone").value.trim();
+            const searchBtn = document.getElementById("searchBtn");
+
+            if (phoneInput.length !== 4 || isNaN(phoneInput)) {
+                showModal("⚠️", "입력 확인", "전화번호 뒤 4자리를 숫자만 정확히 입력해 주세요.");
+                return;
+            }
+
+            searchBtn.disabled = true;
+            searchBtn.innerText = "조회 중...";
+
+            fetch(`${SCRIPT_URL}?phone=${phoneInput}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.found) {
+                        fireConfetti();
+                        showModal(
+                            "✅", 
+                            "등록 확인 완료!", 
+                            `<b>${data.name}</b>님, 이미 등록이 완료되었습니다! 🎉<br>(상태: <b>${data.attendance}</b> / 동반: ${data.guests}명)`
+                        );
+                    } else {
+                        showModal("❓", "등록 정보 없음", "입력하신 뒷자리로 제출된 RSVP가 없습니다.<br>아래 양식에서 참석 여부를 작성해 주세요!");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    showModal("❌", "조회 실패", "조회 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+                })
+                .finally(() => {
+                    searchBtn.disabled = false;
+                    searchBtn.innerText = "조회";
+                });
+        }
+
+        // RSVP Form 제출
+        document.getElementById("rsvpForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById("submitBtn");
+            submitBtn.disabled = true;
+            submitBtn.innerText = "제출 중입니다...";
+
+            const formData = new URLSearchParams();
+            formData.append("name", document.getElementById("name").value);
+            formData.append("phone", document.getElementById("phone").value);
+            formData.append("attendance", document.querySelector('input[name="attendance"]:checked').value);
+            formData.append("guests", document.getElementById("guests").value);
+            formData.append("message", document.getElementById("message").value);
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: formData.toString()
+            })
+            .then(() => {
+                fireConfetti();
+                showModal("🎉", "응답이 전달되었습니다!", "파티 참석 응답이 성공적으로 등록되었습니다.<br>파티 날에 뵙겠습니다!");
+                document.getElementById("rsvpForm").reset();
+            })
+            .catch(error => {
+                console.error("Error!", error.message);
+                showModal("❌", "오류 발생", "제출 중 에러가 발생했습니다. 다시 시도해주세요.");
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "참석 응답 제출하기";
+            });
+        });
+    </script>
+</body>
+</html>
