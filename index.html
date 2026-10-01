@@ -144,7 +144,7 @@
 
         .info-row {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 12px;
             font-size: 0.95rem;
         }
@@ -157,17 +157,20 @@
             width: 30px;
             color: var(--primary-color);
             font-size: 1.1rem;
+            margin-top: 3px;
         }
 
         .info-row .label {
             font-weight: 600;
             width: 70px;
             color: var(--text-sub);
+            flex-shrink: 0;
         }
 
         .info-row .val {
             font-weight: 600;
             color: var(--text-main);
+            line-height: 1.4;
         }
 
         /* Search Box */
@@ -258,7 +261,7 @@
 
         /* RSVP Form */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
@@ -277,11 +280,36 @@
             font-size: 0.95rem;
             transition: all 0.3s ease;
             outline: none;
+            background-color: #fff;
         }
 
         .form-control:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        /* Phone Input Group */
+        .phone-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .phone-group input {
+            text-align: center;
+        }
+
+        .phone-group .phone-prefix {
+            width: 70px;
+            background-color: #f1f5f9;
+            color: var(--text-sub);
+            font-weight: 700;
+            cursor: not-allowed;
+        }
+
+        .phone-group span {
+            color: #cbd5e1;
+            font-weight: bold;
         }
 
         .radio-group {
@@ -299,6 +327,7 @@
             font-weight: 600;
             font-size: 0.9rem;
             transition: all 0.2s;
+            background: #fff;
         }
 
         .radio-group input[type="radio"] {
@@ -337,75 +366,57 @@
             transform: none;
         }
 
-        /* Modal Popup Styling */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-card {
-            background: white;
-            padding: 35px 25px;
-            border-radius: 24px;
+        /* 제출 완료 화면 스타일 */
+        .success-card {
+            display: none;
             text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            transform: scale(0.8);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 40px 20px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+            border: 1px solid #dbeafe;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        .modal-overlay.active .modal-card {
-            transform: scale(1);
-        }
-
-        .modal-icon {
-            font-size: 3.5rem;
+        .success-icon {
+            font-size: 4rem;
             margin-bottom: 15px;
         }
 
-        .modal-card h2 {
-            font-size: 1.4rem;
-            color: var(--text-main);
-            margin-bottom: 10px;
+        .success-title {
+            font-size: 1.6rem;
             font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 10px;
         }
 
-        .modal-card p {
-            font-size: 0.95rem;
-            color: var(--text-sub);
-            line-height: 1.5;
-            margin-bottom: 25px;
-        }
-
-        .modal-close-btn {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 12px;
+        .success-desc {
             font-size: 1rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .reset-btn {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1.5px solid #cbd5e1;
+            padding: 12px 24px;
+            border-radius: 12px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
-            transition: background 0.2s;
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Footer */
@@ -480,17 +491,17 @@
                 <div class="info-row">
                     <i class="fa-solid fa-clock"></i>
                     <span class="label">일시</span>
-                    <span class="val">2026년 10월 24일 (토) 오후 6:00</span>
+                    <span class="val">2026년 11월 7일 (토) 오후 7:30</span>
                 </div>
                 <div class="info-row">
                     <i class="fa-solid fa-location-dot"></i>
                     <span class="label">장소</span>
-                    <span class="val">강남 루프탑 파티룸 (성수역 3번출구)</span>
+                    <span class="val">서울 서초구 방배천로 44 지하 1층 [사당하이퍼]</span>
                 </div>
                 <div class="info-row">
                     <i class="fa-solid fa-shirt"></i>
                     <span class="label">드레스코드</span>
-                    <span class="val">블루 톤 / 시티 캐주얼 👔</span>
+                    <span class="val">파란색 (ex. 청바지, 청자켓 등) 👔</span>
                 </div>
             </div>
 
@@ -500,75 +511,144 @@
             </div>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-time">18:00 - 18:30</div>
-                    <div class="timeline-title">입장 및 포토타임 📸</div>
-                    <div class="timeline-desc">웰컴 드링크와 함께 포토존에서 인생샷 남기기</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">18:30 - 19:30</div>
-                    <div class="timeline-title">메인 바비큐 & 저녁 식사 🥂</div>
-                    <div class="timeline-desc">맛있는 음식 및 와인 칵테일 즐기기</div>
-                </div>
-                <div class="timeline-item">
                     <div class="timeline-time">19:30 - 20:00</div>
-                    <div class="timeline-title">생일 케이크 커팅 & 촛불 타임 🎂</div>
-                    <div class="timeline-desc">생일 축하 노래 부르기 및 촛불 끄기</div>
+                    <div class="timeline-title">입장 & 웰컴타임 🍸</div>
+                    <div class="timeline-desc">웰컴 드링크와 함께 자유로운 분위기에서 포토 타임</div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-time">20:00 - 21:30</div>
-                    <div class="timeline-title">파티 게임 & 레크레이션 🎁</div>
-                    <div class="timeline-desc">푸짐한 상품이 걸려있는 보드게임 및 퀴즈 타임</div>
+                    <div class="timeline-time">20:00 - 21:00</div>
+                    <div class="timeline-title">식사 & 조별 인사 🥂</div>
+                    <div class="timeline-desc">맛있는 식사와 함께 조별로 간단히 인사 나누기</div>
                 </div>
                 <div class="timeline-item">
-                    <div class="timeline-time">21:30 ~</div>
-                    <div class="timeline-title">자유 수다 & 2차 파티 🎵</div>
-                    <div class="timeline-desc">밤새도록 이어지는 감성 수다 타임</div>
+                    <div class="timeline-time">21:00 - 22:00</div>
+                    <div class="timeline-title">아이스브레이킹 & 레크리에이션 🎁</div>
+                    <div class="timeline-desc">어색함을 깨는 친목 게임 및 상품이 있는 퀴즈 타임</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">22:00 ~</div>
+                    <div class="timeline-title">자유시간 & PARTY 🎉</div>
+                    <div class="timeline-desc">신나는 음악과 함께 자유롭게 즐기는 본격 파티 타임</div>
                 </div>
             </div>
 
-            <!-- RSVP Form -->
-            <div class="section-title">
-                <i class="fa-solid fa-envelope-open-text"></i> 참석 여부 확인 (RSVP)
-            </div>
+            <!-- RSVP Form Section -->
+            <div id="rsvpSection">
+                <div class="section-title">
+                    <i class="fa-solid fa-envelope-open-text"></i> 참석 여부 확인 (RSVP)
+                </div>
 
-            <!-- 등록 확인 조회 섹션 -->
-            <div class="search-box">
-                <label for="searchPhone">🔍 이미 신청하셨나요? 등록 여부 조회</label>
-                <div class="search-input-group">
-                    <input type="text" id="searchPhone" class="form-control" placeholder="전화번호 뒤 4자리 (예: 1234)" maxlength="4">
-                    <button type="button" class="search-btn" id="searchBtn" onclick="checkRegistration()">조회</button>
-                </div>
-            </div>
-
-            <form id="rsvpForm">
-                <div class="form-group">
-                    <label for="name">성함</label>
-                    <input type="text" id="name" class="form-control" placeholder="성함을 입력해주세요" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">연락처</label>
-                    <input type="tel" id="phone" class="form-control" placeholder="010-0000-0000" required>
-                </div>
-                <div class="form-group">
-                    <label>참석 여부</label>
-                    <div class="radio-group">
-                        <input type="radio" id="att_yes" name="attendance" value="참석" checked>
-                        <label for="att_yes" class="radio-label">참석할게요! 🥳</label>
-                        
-                        <input type="radio" id="att_no" name="attendance" value="불참">
-                        <label for="att_no" class="radio-label">아쉽지만 불참 😭</label>
+                <!-- 등록 확인 조회 섹션 -->
+                <div class="search-box">
+                    <label for="searchPhone">🔍 이미 신청하셨나요? 등록 여부 조회</label>
+                    <div class="search-input-group">
+                        <input type="text" id="searchPhone" class="form-control" placeholder="전화번호 뒤 4자리 (예: 1234)" maxlength="4">
+                        <button type="button" class="search-btn" id="searchBtn" onclick="checkRegistration()">조회</button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="guests">동반 인원 (본인 제외)</label>
-                    <input type="number" id="guests" class="form-control" value="0" min="0" max="5">
-                </div>
-                <div class="form-group">
-                    <label for="message">축하 한마디 / 문의사항</label>
-                    <textarea id="message" class="form-control" rows="3" placeholder="축하 메시지를 남겨주세요!"></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="submitBtn">참석 응답 제출하기</button>
-            </form>
+
+                <form id="rsvpForm">
+                    <div class="form-group">
+                        <label for="name">성함</label>
+                        <input type="text" id="name" class="form-control" placeholder="성함을 입력해주세요" required>
+                    </div>
+
+                    <!-- 성별 선택란 추가 -->
+                    <div class="form-group">
+                        <label>성별</label>
+                        <div class="radio-group">
+                            <input type="radio" id="gender_m" name="gender" value="남성" checked>
+                            <label for="gender_m" class="radio-label">남성 👨</label>
+
+                            <input type="radio" id="gender_f" name="gender" value="여성">
+                            <label for="gender_f" class="radio-label">여성 👩</label>
+                        </div>
+                    </div>
+
+                    <!-- 분리된 전화번호 입력창 -->
+                    <div class="form-group">
+                        <label>연락처</label>
+                        <div class="phone-group">
+                            <input type="text" class="form-control phone-prefix" value="010" readonly>
+                            <span>-</span>
+                            <input type="tel" id="phone_mid" class="form-control" placeholder="0000" maxlength="4" pattern="[0-9]{3,4}" required onkeyup="autoFocusNext(this, 'phone_last', 4)">
+                            <span>-</span>
+                            <input type="tel" id="phone_last" class="form-control" placeholder="0000" maxlength="4" pattern="[0-9]{4}" required>
+                        </div>
+                    </div>
+
+                    <!-- MBTI 선택란 -->
+                    <div class="form-group">
+                        <label for="mbti">MBTI</label>
+                        <select id="mbti" class="form-control" required>
+                            <option value="" disabled selected>MBTI를 선택해주세요</option>
+                            <option value="INTJ">INTJ</option>
+                            <option value="INTP">INTP</option>
+                            <option value="ENTJ">ENTJ</option>
+                            <option value="ENTP">ENTP</option>
+                            <option value="INFJ">INFJ</option>
+                            <option value="INFP">INFP</option>
+                            <option value="ENFJ">ENFJ</option>
+                            <option value="ENFP">ENFP</option>
+                            <option value="ISTJ">ISTJ</option>
+                            <option value="ISFJ">ISFJ</option>
+                            <option value="ESTJ">ESTJ</option>
+                            <option value="ESFJ">ESFJ</option>
+                            <option value="ISTP">ISTP</option>
+                            <option value="ISFP">ISFP</option>
+                            <option value="ESTP">ESTP</option>
+                            <option value="ESFP">ESFP</option>
+                        </select>
+                    </div>
+
+                    <!-- 입금 완료 여부 -->
+                    <div class="form-group">
+                        <label>입금 완료 여부</label>
+                        <div class="radio-group">
+                            <input type="radio" id="deposit_yes" name="deposit" value="완료" checked>
+                            <label for="deposit_yes" class="radio-label">네 (입금 완료) 💳</label>
+
+                            <input type="radio" id="deposit_no" name="deposit" value="미입금">
+                            <label for="deposit_no" class="radio-label">아니오 (입금 예정) ⏳</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>참석 여부</label>
+                        <div class="radio-group">
+                            <input type="radio" id="att_yes" name="attendance" value="참석" checked>
+                            <label for="att_yes" class="radio-label">참석할게요! 🥳</label>
+                            
+                            <input type="radio" id="att_no" name="attendance" value="불참">
+                            <label for="att_no" class="radio-label">아쉽지만 불참 😭</label>
+                        </div>
+                    </div>
+
+                    <!-- 요구사항 / 기타 요청사항 란 -->
+                    <div class="form-group">
+                        <label for="requirements">요구사항 / 기타 요청사항</label>
+                        <input type="text" id="requirements" class="form-control" placeholder="못 드시는 음식, 기타 요청사항 등을 입력해주세요">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">축하 한마디</label>
+                        <textarea id="message" class="form-control" rows="3" placeholder="축하 메시지를 남겨주세요!"></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">참석 응답 제출하기</button>
+                </form>
+            </div>
+
+            <!-- 제출 완료 화면 전환용 영역 -->
+            <div id="successCard" class="success-card">
+                <div class="success-icon">🎉</div>
+                <h2 class="success-title">제출이 완료되었습니다!</h2>
+                <p class="success-desc">
+                    카일의 생일 파티 응답이 성공적으로 등록되었습니다.<br>
+                    파티 날에 기분 좋게 뵙겠습니다! 🥳
+                </p>
+                <button type="button" class="reset-btn" onclick="showFormAgain()">응답 다시 작성하기 / 수정하기</button>
+            </div>
         </div>
 
         <div class="footer">
@@ -577,19 +657,9 @@
         </div>
     </div>
 
-    <!-- 제출 완료 / 조회 알림 팝업 모달 -->
-    <div class="modal-overlay" id="infoModal">
-        <div class="modal-card">
-            <div class="modal-icon" id="modalIcon">🎉</div>
-            <h2 id="modalTitle">알림</h2>
-            <p id="modalDesc">상세 내용입니다.</p>
-            <button class="modal-close-btn" onclick="closeModal()">확인</button>
-        </div>
-    </div>
-
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwBOdplBIQx6IKqGjA71U6n-jwUFoojeDcdaAu9iY-4NaJyLLElarlcXC66Ufd9fQYq/exec";
-        const partyDate = new Date("2026-10-24T18:00:00").getTime();
+        const partyDate = new Date("2026-11-07T19:30:00").getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -617,6 +687,13 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
+        // 전화번호 4자리 작성 시 다음 입력창 자동 포커스 이동
+        function autoFocusNext(current, nextFieldId, maxLength) {
+            if (current.value.length >= maxLength) {
+                document.getElementById(nextFieldId).focus();
+            }
+        }
+
         function fireConfetti() {
             confetti({
                 particleCount: 120,
@@ -630,16 +707,18 @@
             setTimeout(fireConfetti, 500);
         });
 
-        // 커스텀 모달 열기 함수
-        function showModal(icon, title, desc) {
-            document.getElementById("modalIcon").innerText = icon;
-            document.getElementById("modalTitle").innerText = title;
-            document.getElementById("modalDesc").innerHTML = desc;
-            document.getElementById("infoModal").classList.add("active");
+        // 제출 완료 후 화면 전환 함수
+        function showSuccessView() {
+            document.getElementById("rsvpSection").style.display = "none";
+            document.getElementById("successCard").style.display = "block";
+            fireConfetti();
+            window.scrollTo({ top: document.getElementById("successCard").offsetTop - 100, behavior: 'smooth' });
         }
 
-        function closeModal() {
-            document.getElementById("infoModal").classList.remove("active");
+        function showFormAgain() {
+            document.getElementById("rsvpSection").style.display = "block";
+            document.getElementById("successCard").style.display = "none";
+            document.getElementById("rsvpForm").reset();
         }
 
         // 전화번호 뒷자리 4자리 조회 함수
@@ -648,7 +727,7 @@
             const searchBtn = document.getElementById("searchBtn");
 
             if (phoneInput.length !== 4 || isNaN(phoneInput)) {
-                showModal("⚠️", "입력 확인", "전화번호 뒤 4자리를 숫자만 정확히 입력해 주세요.");
+                alert("전화번호 뒤 4자리를 숫자만 정확히 입력해 주세요.");
                 return;
             }
 
@@ -660,18 +739,14 @@
                 .then(data => {
                     if (data.found) {
                         fireConfetti();
-                        showModal(
-                            "✅", 
-                            "등록 확인 완료!", 
-                            `<b>${data.name}</b>님, 이미 등록이 완료되었습니다! 🎉<br>(상태: <b>${data.attendance}</b> / 동반: ${data.guests}명)`
-                        );
+                        alert(`${data.name}님, 이미 등록이 완료되었습니다! 🎉\n(상태: ${data.attendance})`);
                     } else {
-                        showModal("❓", "등록 정보 없음", "입력하신 뒷자리로 제출된 RSVP가 없습니다.<br>아래 양식에서 참석 여부를 작성해 주세요!");
+                        alert("입력하신 뒷자리로 제출된 RSVP가 없습니다.\n아래 양식에서 참석 여부를 작성해 주세요!");
                     }
                 })
                 .catch(err => {
                     console.error(err);
-                    showModal("❌", "조회 실패", "조회 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+                    alert("조회 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
                 })
                 .finally(() => {
                     searchBtn.disabled = false;
@@ -687,11 +762,16 @@
             submitBtn.disabled = true;
             submitBtn.innerText = "제출 중입니다...";
 
+            const fullPhone = `010-${document.getElementById("phone_mid").value}-${document.getElementById("phone_last").value}`;
+
             const formData = new URLSearchParams();
             formData.append("name", document.getElementById("name").value);
-            formData.append("phone", document.getElementById("phone").value);
+            formData.append("gender", document.querySelector('input[name="gender"]:checked').value);
+            formData.append("phone", fullPhone);
+            formData.append("mbti", document.getElementById("mbti").value);
+            formData.append("deposit", document.querySelector('input[name="deposit"]:checked').value);
             formData.append("attendance", document.querySelector('input[name="attendance"]:checked').value);
-            formData.append("guests", document.getElementById("guests").value);
+            formData.append("requirements", document.getElementById("requirements").value);
             formData.append("message", document.getElementById("message").value);
 
             fetch(SCRIPT_URL, {
@@ -703,13 +783,11 @@
                 body: formData.toString()
             })
             .then(() => {
-                fireConfetti();
-                showModal("🎉", "응답이 전달되었습니다!", "파티 참석 응답이 성공적으로 등록되었습니다.<br>파티 날에 뵙겠습니다!");
-                document.getElementById("rsvpForm").reset();
+                showSuccessView();
             })
             .catch(error => {
                 console.error("Error!", error.message);
-                showModal("❌", "오류 발생", "제출 중 에러가 발생했습니다. 다시 시도해주세요.");
+                alert("제출 중 에러가 발생했습니다. 다시 시도해주세요.");
             })
             .finally(() => {
                 submitBtn.disabled = false;
