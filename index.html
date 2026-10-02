@@ -39,6 +39,60 @@
             align-items: center;
         }
 
+        /* 웰컴 오버레이 (첫 진입 화면) */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .welcome-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .welcome-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .welcome-sub {
+            font-size: 1rem;
+            color: #93c5fd;
+            margin-bottom: 30px;
+        }
+
+        .open-btn {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            animation: pulse 1.8s infinite;
+        }
+
+        .open-btn:hover {
+            transform: scale(1.05);
+        }
+
         .container {
             max-width: 600px;
             width: 100%;
@@ -288,6 +342,18 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
+        /* 예시 힌트 문구 스타일 */
+        .input-hint {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            margin-top: 6px;
+            line-height: 1.4;
+            background: #eff6ff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+        }
+
         /* Phone Input Group */
         .phone-group {
             display: flex;
@@ -428,7 +494,7 @@
             border-top: 1px solid #f1f5f9;
         }
 
-        /* Floating Buttons (BGM & Confetti) */
+        /* Floating Buttons */
         .celebrate-btn {
             position: fixed;
             bottom: 25px;
@@ -480,9 +546,16 @@
 </head>
 <body>
 
-    <!-- BGM 오디오 태그 (GitHub에 올리신 파일명 반영) -->
+    <!-- 웰컴 오버레이 (첫 화면) -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-title">카일의 생일 파티 초대장 🎂</div>
+        <div class="welcome-sub">특별한 하루에 여러분을 초대합니다!</div>
+        <button class="open-btn" onclick="openInvitation()">🎉 초대장 열기 (BGM 🎵)</button>
+    </div>
+
+    <!-- BGM 오디오 태그 -->
     <audio id="bgm" loop preload="auto">
-        <source src="IU-Blueming.mp3" type="audio/mpeg">
+        <source src="IU-Bleuming.mp3" type="audio/mpeg">
     </audio>
 
     <!-- 플로팅 버튼 -->
@@ -493,7 +566,7 @@
         <!-- Header -->
         <div class="header">
             <span class="header-tag">YOU'RE INVITED!</span>
-            <h1>카일의 34번째<br>생일파티에 초대합니다 🎂</h1>
+            <h1>강표 Kyle의<br>생일파티에 초대합니다 🎂</h1>
             <p class="subtitle">Happy Birthday Party</p>
         </div>
 
@@ -636,7 +709,7 @@
                         </select>
                     </div>
 
-                    <!-- 입금 완료 여부 -->
+                    <!-- 입금 완료 여부 (계좌 안내 예시 추가) -->
                     <div class="form-group">
                         <label>입금 완료 여부</label>
                         <div class="radio-group">
@@ -645,6 +718,9 @@
 
                             <input type="radio" id="deposit_no" name="deposit" value="미입금">
                             <label for="deposit_no" class="radio-label">아니오 (입금 예정) ⏳</label>
+                        </div>
+                        <div class="input-hint">
+                            <b>💡 입금 안내:</b> 45,000원 (카카오뱅크 3333351704908 이강표)
                         </div>
                     </div>
 
@@ -662,7 +738,10 @@
                     <!-- 요구사항 / 기타 요청사항 란 -->
                     <div class="form-group">
                         <label for="requirements">요구사항 / 기타 요청사항</label>
-                        <input type="text" id="requirements" class="form-control" placeholder="못 드시는 음식, 기타 요청사항 등을 입력해주세요">
+                        <input type="text" id="requirements" class="form-control" placeholder="요청사항을 작성해주세요">
+                        <div class="input-hint">
+                            <b>💡 ex)</b> 못 드시는 음식, 늦게 참석 예정, 친구랑 같이 앉고싶어요! 등
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -722,10 +801,22 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // BGM 컨트롤 스크립트
+        // BGM 및 초대장 열기 함수
         const bgm = document.getElementById("bgm");
         const bgmBtn = document.getElementById("bgmBtn");
         let isPlaying = false;
+
+        function openInvitation() {
+            document.getElementById("welcomeOverlay").classList.add("hidden");
+            bgm.play().then(() => {
+                bgmBtn.innerText = "🔊";
+                bgmBtn.classList.add("playing");
+                isPlaying = true;
+            }).catch(err => {
+                console.log("재생 제한 오류:", err);
+            });
+            fireConfetti();
+        }
 
         function toggleBGM() {
             if (isPlaying) {
@@ -744,17 +835,6 @@
             }
         }
 
-        // 사용자가 화면을 처음 터치/클릭할 때 BGM 자연스럽게 시작
-        document.addEventListener('click', function startAudioOnInteraction() {
-            if (!isPlaying) {
-                bgm.play().then(() => {
-                    bgmBtn.innerText = "🔊";
-                    bgmBtn.classList.add("playing");
-                    isPlaying = true;
-                }).catch(() => {});
-            }
-        }, { once: true });
-
         // 전화번호 4자리 작성 시 다음 입력창 자동 포커스 이동
         function autoFocusNext(current, nextFieldId, maxLength) {
             if (current.value.length >= maxLength) {
@@ -770,10 +850,6 @@
                 colors: ['#2563eb', '#3b82f6', '#60a5fa', '#38bdf8', '#ffffff']
             });
         }
-
-        window.addEventListener('load', () => {
-            setTimeout(fireConfetti, 500);
-        });
 
         // 제출 완료 후 화면 전환 함수
         function showSuccessView() {
