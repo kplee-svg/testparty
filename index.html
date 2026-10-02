@@ -898,46 +898,46 @@
                 });
         }
 
-        // RSVP Form 제출
-        document.getElementById("rsvpForm").addEventListener("submit", function(e) {
-            e.preventDefault();
+       // RSVP Form 제출
+document.getElementById("rsvpForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-            const submitBtn = document.getElementById("submitBtn");
-            submitBtn.disabled = true;
-            submitBtn.innerText = "제출 중입니다...";
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.disabled = true;
+    submitBtn.innerText = "제출 중입니다...";
 
-            const fullPhone = `010-${document.getElementById("phone_mid").value}-${document.getElementById("phone_last").value}`;
+    const fullPhone = `010-${document.getElementById("phone_mid").value}-${document.getElementById("phone_last").value}`;
 
-            const formData = new URLSearchParams();
-            formData.append("name", document.getElementById("name").value);
-            formData.append("gender", document.querySelector('input[name="gender"]:checked').value);
-            formData.append("phone", fullPhone);
-            formData.append("mbti", document.getElementById("mbti").value);
-            formData.append("deposit", document.querySelector('input[name="deposit"]:checked').value);
-            formData.append("attendance", document.querySelector('input[name="attendance"]:checked').value);
-            formData.append("requirements", document.getElementById("requirements").value);
-            formData.append("message", document.getElementById("message").value);
+    const formData = new URLSearchParams();
+    formData.append("name", document.getElementById("name").value);
+    formData.append("phone", fullPhone);
+    formData.append("gender", document.querySelector('input[name="gender"]:checked').value);
+    formData.append("mbti", document.getElementById("mbti").value);
+    formData.append("attendance", document.querySelector('input[name="attendance"]:checked').value);
+    formData.append("deposit", document.querySelector('input[name="deposit"]:checked').value);
+    formData.append("requirements", document.getElementById("requirements").value);
+    formData.append("message", document.getElementById("message").value);
 
-            fetch(SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: formData.toString()
-            })
-            .then(() => {
-                showSuccessView();
-            })
-            .catch(error => {
-                console.error("Error!", error.message);
-                alert("제출 중 에러가 발생했습니다. 다시 시도해주세요.");
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerText = "참석 응답 제출하기";
-            });
-        });
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData.toString()
+    })
+    .then(() => {
+        showSuccessView();
+    })
+    .catch(error => {
+        console.error("Error!", error.message);
+        alert("제출 중 에러가 발생했습니다. 다시 시도해주세요.");
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "참석 응답 제출하기";
+    });
+});
     </script>
 </body>
 </html>
